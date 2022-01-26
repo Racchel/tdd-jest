@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 // eslint-disable-next-line max-classes-per-file
 interface ILoadGroupRepository {
    load: (input: { eventId: string }) => Promise<void>;
@@ -10,9 +11,11 @@ class LoadGroupRepository implements ILoadGroupRepository {
 
 class LoadGroupRepositoryMock implements ILoadGroupRepository {
    eventId?: string;
+   callsCount = 0;
 
    async load({ eventId }: { eventId: string }): Promise<void> {
       this.eventId = eventId;
+      this.callsCount++;
    }
 }
 
@@ -33,5 +36,6 @@ describe('DeleteEvent', () => {
       await sut.perform({ id, userId });
 
       expect(loadGroupRepository.eventId).toBe(id);
+      expect(loadGroupRepository.callsCount).toBe(1);
    });
 });
