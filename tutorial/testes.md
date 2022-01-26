@@ -53,13 +53,13 @@ describe('nomeDoUseCase', () => {
 ```
 
 ---
-⚠️
+[⚠️] **INFO:** 
 * Quando você cria um controller, por exemplo, o nome do método é a intenção. Exemplo: **insert()**, **delete()**...
 * Quando você está criando um caso de uso, o nome da classe é a intenção. Logo, o nome do método é só para executar. O nome dele pode ser **execute()**, **perfom()**, ....
 ---
 
 ---
-⚠️
+[⚠️] **INFO:**
 * Em testes unitários, não precisamos nos preocupar em como os dados vão vir, nós usamos um test double
 * Exemplo: no método perform, não importa passar um uuid ou uma string como 'any_group_id'
 ---
@@ -87,7 +87,7 @@ describe('nomeDoUseCase', () => {
 });
 ```
 ---
-⚠️
+[⚠️] **INFO:**
 * Sempre que tiver um 'repository', significa alguém que obtém dados de alguma fonte de dados
 * É uma ponte com alguém de fora
 ---
@@ -117,7 +117,7 @@ class LoadLastEventRepository {
 ```
 
 ---
-⚠️
+[⚠️] **INFO:**
 * Quando você habilita o modo strict do typescript, a gente precisa dizer para o compilador do ts quando uma variável pode aceitar nulo ou undefined
 * Colocando apenas "groupId?: string;" na classe, ela inicializa sem valor, logo undefined
 * Para resolver isso, ou você cria um construtor para obrigar a colocar um valor nesse objeto quando ele for construido
@@ -153,7 +153,7 @@ class CheckLastEventStatus {
 ```
 
 ---
-⚠️
+[⚠️] **INFO:**
 * Forma de criar o construtor sem sintax sugar:
 
 ``` ts
@@ -169,7 +169,7 @@ class CheckLastEventStatus {
 ---
 
 ---
-⚠️
+[⚠️] **INFO:**
 * modificador private: só vai acessar de dentro da classe
 * modificador readonly: é uma constante, não pode mudar
 ---
@@ -184,7 +184,7 @@ async perform(groupId: string): Promise<void> {
 }
 ```
 ---
-⚠️
+[⚠️] **INFO:**
 * modificador private: só vai acessar de dentro da classe
 * modificador readonly: é uma constante, não pode mudar
 ---
@@ -198,7 +198,7 @@ interface ILoadLastEventRepository {
 ```
 
 ---
-⚠️
+[⚠️] **INFO:**
 * O que é uma interface? é um contrato 
 * Quem tiver essa interface deve implementar o método....
 ---
@@ -216,7 +216,7 @@ class LoadLastEventRepositoryMock implements ILoadLastEventRepository {
 ```
 
 ---
-⚠️
+[⚠️] **INFO:**
 * Test Double é uma forma que a gente tem de criar uma classe com o mínimo possível
 * Preocupado apenas com o input e o output -> não o processamento
 * Usar Mock, Stub e Spy
