@@ -1,28 +1,34 @@
 /* eslint-disable no-plusplus */
 // eslint-disable-next-line max-classes-per-file
 interface ILoadGroupRepository {
-   load: (input: { eventId: string }) => Promise<void>;
+   load: (input: { eventId: string }) => Promise<any>;
 }
 
 class LoadGroupRepository implements ILoadGroupRepository {
    eventId?: string;
-   async load(input: { eventId: string }): Promise<void> {}
+   async load(input: { eventId: string }): Promise<any> {
+      return undefined;
+   }
 }
 
 class LoadGroupRepositoryMock implements ILoadGroupRepository {
    eventId?: string;
    callsCount = 0;
+   output: any = 'any_value';
 
-   async load({ eventId }: { eventId: string }): Promise<void> {
+   async load({ eventId }: { eventId: string }): Promise<any> {
       this.eventId = eventId;
       this.callsCount++;
+      return this.output;
    }
 }
 
 class DeleteEvent {
    constructor(private readonly loadGroupRepository: LoadGroupRepository) {}
+
    async perform({ id }: { id: string; userId: string }): Promise<void> {
-      await this.loadGroupRepository.load({ eventId: id });
+      const group = await this.loadGroupRepository.load({ eventId: id });
+      if (group === undefined) throw new Error();
    }
 }
 type SutTypes = {
@@ -47,5 +53,14 @@ describe('DeleteEvent', () => {
 
       expect(loadGroupRepository.eventId).toBe(id);
       expect(loadGroupRepository.callsCount).toBe(1);
+   });
+
+   it('should throw if eventId is invalid', async () => {
+      const { sut, loadGroupRepository } = makeSut();
+      loadGroupRepository.output = undefined;
+
+      const promise = sut.perform({ id, userId });
+
+      await expect(promise).rejects.toThrowError();
    });
 });
