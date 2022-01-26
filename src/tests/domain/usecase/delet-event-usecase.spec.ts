@@ -20,7 +20,7 @@ class LoadGroupRepository implements ILoadGroupRepository {
    }
 }
 
-class LoadGroupRepositoryMock implements ILoadGroupRepository {
+class LoadGroupRepositorySpy implements ILoadGroupRepository {
    eventId?: string;
    callsCount = 0;
    output?: Group = {
@@ -54,11 +54,11 @@ class DeleteEvent {
 }
 type SutTypes = {
    sut: DeleteEvent;
-   loadGroupRepository: LoadGroupRepositoryMock;
+   loadGroupRepository: LoadGroupRepositorySpy;
 };
 
 const makeSut = (): SutTypes => {
-   const loadGroupRepository = new LoadGroupRepositoryMock();
+   const loadGroupRepository = new LoadGroupRepositorySpy();
    const sut = new DeleteEvent(loadGroupRepository);
    return { sut, loadGroupRepository };
 };
