@@ -5,9 +5,14 @@ import { ILoadGroupRepository } from '../../../src/domain/repositories';
 export class LoadGroupRepositorySpy implements ILoadGroupRepository {
    eventId?: string;
    callsCount = 0;
-   output?: Group = {
-      users: [{ id: 'any_user_id', permission: 'admin' }],
-   };
+   output?: Group = new Group({
+      users: [
+         {
+            id: 'any_user_id',
+            permission: 'admin',
+         },
+      ],
+   });
 
    async load({ eventId }: { eventId: string }): Promise<Group | undefined> {
       this.eventId = eventId;

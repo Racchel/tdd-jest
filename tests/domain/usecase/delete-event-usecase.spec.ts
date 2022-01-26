@@ -1,12 +1,20 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-plusplus */
 // eslint-disable-next-line max-classes-per-file
 
+import { mocked } from 'ts-jest/utils';
+
+import { Group } from '../../../src/domain/model/group';
 import { DeleteEvent } from '../../../src/domain/usecases';
 import {
    LoadGroupRepositorySpy,
    DeleteEventRepositoryMock,
    DeleteMatchRepositoryMock,
 } from '../repositories';
+
+jest.mock('../../../src/domain/model/group', () => ({
+   Group: jest.fn(),
+}));
 
 type SutTypes = {
    sut: DeleteEvent;
@@ -36,6 +44,13 @@ const makeSut = (): SutTypes => {
 describe('DeleteEvent', () => {
    const id = 'any_event_id';
    const userId = 'any_user_id';
+   let isAdmin: jest.Mock;
+
+   beforeAll(() => {
+      isAdmin = jest.fn().mockReturnValue(true);
+      const fakeGroup = jest.fn().mockImplementation(() => ({ isAdmin }));
+      mocked(Group).mockImplementation(fakeGroup);
+   });
 
    it('should get group data', async () => {
       const { sut, loadGroupRepository } = makeSut();
@@ -55,44 +70,17 @@ describe('DeleteEvent', () => {
       await expect(promise).rejects.toThrowError();
    });
 
-   it('should throw if userId is invalid', async () => {
-      const { sut, loadGroupRepository } = makeSut();
-      loadGroupRepository.output = {
-         users: [{ id: 'any_user_id', permission: 'admin' }],
-      };
-
-      const promise = sut.perform({ id, userId: 'invalid_id' });
-
-      await expect(promise).rejects.toThrowError();
-   });
-
-   it('should throw if permission is user', async () => {
-      const { sut, loadGroupRepository } = makeSut();
-      loadGroupRepository.output = {
-         users: [{ id: 'any_user_id', permission: 'user' }],
-      };
+   it('should throw if user is admin', async () => {
+      const { sut } = makeSut();
+      isAdmin.mockReturnValueOnce(false);
 
       const promise = sut.perform({ id, userId });
 
       await expect(promise).rejects.toThrowError();
    });
 
-   it('should not throw if permission is admin', async () => {
-      const { sut, loadGroupRepository } = makeSut();
-      loadGroupRepository.output = {
-         users: [{ id: 'any_user_id', permission: 'admin' }],
-      };
-
-      const promise = sut.perform({ id, userId });
-
-      await expect(promise).resolves.not.toThrowError();
-   });
-
-   it('should not throw if permission is owner', async () => {
-      const { sut, loadGroupRepository } = makeSut();
-      loadGroupRepository.output = {
-         users: [{ id: 'any_user_id', permission: 'owner' }],
-      };
+   it('should not throw if user is not admin', async () => {
+      const { sut } = makeSut();
 
       const promise = sut.perform({ id, userId });
 
