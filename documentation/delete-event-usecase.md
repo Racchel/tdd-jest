@@ -12,10 +12,10 @@
 1. Retornar erro
 
 > ## Fluxo alternativo: O usuário não pertence ao grupo
-1. Retornar erro
+2. Retornar erro
 
 > ## Fluxo alternativo: O usuário não tem permissão
-1. Retornar erro
+2. Retornar erro
 
 
 
