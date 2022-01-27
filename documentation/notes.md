@@ -6,6 +6,8 @@
 - High Coupling => Quando uma classe cria sua própria dependência
 - Test Code in Production
 - Acoplamento => se você recebe uma classe concreta, você está acoplado
+- Duplicate code
+- Shutgum Surgery => quando você mexe em um lugar e afeta vários outros
 
 
 # Design Patterns/Principles/Conventions
@@ -21,5 +23,5 @@
 - Liskov Substituition (LSP)
 - Repository Pattern
 - Test Doubles (Mock)
-- Small commits => boa commmitar depois do teste passar
+- Small commits => boa commitar depois do teste passar
 - System Under Test (SUT)

@@ -36,7 +36,7 @@ class LoadLastEventRepositoryMock implements ILoadLastEventRepository {
 20. Seguir padrão SUT **DENTRO DO TESTE**: 
 
 
-``` js
+``` ts
 it('should get last event data', async () => {
    // Arranje
    const loadLastEventRepository = new LoadLastEventRepositoryMock();
@@ -50,3 +50,53 @@ it('should get last event data', async () => {
    expect(loadLastEventRepository.callsCount).toBe(1);
 });
 ```
+
+21. Criar um teste para verificar o status quanto não tem eventos em um grupo
+
+``` ts
+it('should return status done when group has no event', async () => {
+   // Arranje
+   const loadLastEventRepository = new LoadLastEventRepositoryMock();
+   loadLastEventRepository.output = undefined;
+   const sut = new CheckLastEventStatus(loadLastEventRepository);
+
+   // Act
+   const status = await sut.perform('any_group_id');
+
+   // Assert
+   expect(status).toBe('done');
+});
+```
+
+22. Criar variável output, trocar retorno para undefined e retornar output
+
+``` ts
+interface ILoadLastEventRepository {
+   loadLastEvent: (groupId: string) => Promise<undefined>;                       <--
+}
+
+class LoadLastEventRepositoryMock implements ILoadLastEventRepository {
+   groupId?: string;
+   callsCount = 0;
+   output: undefined;                                                            <--
+
+   async loadLastEvent(groupId: string): Promise<undefined> {                    <--
+      this.groupId = groupId;
+      this.callsCount++;
+      return this.output;                                                        <--
+   }
+}
+```
+
+23. Mudar nome: de Mock para Spy e em todos os lugares que tiver
+
+``` ts
+class LoadLastEventRepositorySpy implements ILoadLastEventRepository {...}
+```
+
+---
+[⚠️] **INFO:**
+* Mock se preocupa apenas com o input. 
+* Stub se preocupa apenas com o output. 
+* Spy se preocupa tanto com input quanto com output.
+---
