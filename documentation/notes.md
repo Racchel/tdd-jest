@@ -53,7 +53,7 @@
 </details>
 
 <details>
-  <summary>- You Ain't Gonna Need It (YAGNI) </summary>
+  <summary>You Ain't Gonna Need It (YAGNI) </summary>
   * Não faça coisas enquanto você não precisa
 </details>
 
