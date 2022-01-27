@@ -33,3 +33,20 @@ class LoadLastEventRepositoryMock implements ILoadLastEventRepository {
    }
 }
 ```
+20. Seguir padrão SUT **DENTRO DO TESTE**: 
+
+
+``` js
+it('should get last event data', async () => {
+   // Arranje
+   const loadLastEventRepository = new LoadLastEventRepositoryMock();
+   const sut = new CheckLastEventStatus(loadLastEventRepository);                <--
+
+   // Act
+   await sut.perform('any_group_id');
+
+   // Assert
+   expect(loadLastEventRepository.groupId).toBe('any_group_id');
+   expect(loadLastEventRepository.callsCount).toBe(1);
+});
+```

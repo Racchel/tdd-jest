@@ -22,3 +22,4 @@
 - Repository Pattern
 - Test Doubles (Mock)
 - Small commits => boa commmitar depois do teste passar
+- System Under Test (SUT)

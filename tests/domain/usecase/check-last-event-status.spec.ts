@@ -32,12 +32,10 @@ describe('CheckLastEventStatus', () => {
    it('should get last event data', async () => {
       // Arranje
       const loadLastEventRepository = new LoadLastEventRepositoryMock();
-      const checkLastEventStatus = new CheckLastEventStatus(
-         loadLastEventRepository
-      );
+      const sut = new CheckLastEventStatus(loadLastEventRepository);
 
       // Act
-      await checkLastEventStatus.perform('any_group_id');
+      await sut.perform('any_group_id');
 
       // Assert
       expect(loadLastEventRepository.groupId).toBe('any_group_id');
