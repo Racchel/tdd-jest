@@ -100,3 +100,20 @@ class LoadLastEventRepositorySpy implements ILoadLastEventRepository {...}
 * Stub se preocupa apenas com o output. 
 * Spy se preocupa tanto com input quanto com output.
 ---
+
+24. Mudar tipo de retorno do método perform para string e retornar 'done'
+
+``` ts
+class CheckLastEventStatus {
+   constructor(
+      private readonly loadLastEventRepository: ILoadLastEventRepository
+   ) {}
+
+   async perform(groupId: string): Promise<string> {                             <--
+      await this.loadLastEventRepository.loadLastEvent(groupId);
+      return 'done';                                                             <--
+   }
+}
+```
+
+25. Testar o código: teoricamente tudo certo
