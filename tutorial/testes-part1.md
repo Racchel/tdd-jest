@@ -6,7 +6,7 @@ Caso de uso é um orquestrador de chamadas
 
 Por exemplo: um caso de uso não está preocupado em como eu vou apagar um registro - se é em um banco relacional, não-relacional, file, excel, ele só chama a execução dessa tarefa
 
-## Como posso começar com os testes?
+## Como posso começar com os testes? (PART 1)
 
 1. Criar um diretório testes/usecase
 2. Criar um arquivo com o nome do **usecase+spec.ts** ou usecase+spec.js
@@ -31,7 +31,9 @@ describe('nomeDoUseCase', () => {
 ```
 
 ---
-[RED] No TDD, a "regra" diz que o seu teste deve começar dando erro, seja o código falhando ou problema de build. 
+[⚠️] **INFO:** 
+* No TDD, a "regra" diz que o seu teste deve começar dando erro, seja o código falhando ou problema de build. 
+* Chamado de RED.
 ---
 
 5. Criar a classe que você quer testar  **FORA DO TESTE**:
@@ -223,7 +225,7 @@ class LoadLastEventRepositoryMock implements ILoadLastEventRepository {
 * Mock está s[o preocupado com o input
 ---
 
-18. Como o setup fica: (com algumas alterações)
+17. Como o setup fica: (com algumas alterações)
 
 ``` ts
 

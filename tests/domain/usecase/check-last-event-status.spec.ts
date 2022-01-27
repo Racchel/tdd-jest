@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable max-classes-per-file */
 interface ILoadLastEventRepository {
    loadLastEvent: (groupId: string) => Promise<void>;
@@ -9,9 +10,11 @@ class LoadLastEventRepository {
 
 class LoadLastEventRepositoryMock implements ILoadLastEventRepository {
    groupId?: string;
+   callsCount = 0;
 
    async loadLastEvent(groupId: string): Promise<void> {
       this.groupId = groupId;
+      this.callsCount++;
    }
 }
 
@@ -38,5 +41,6 @@ describe('CheckLastEventStatus', () => {
 
       // Assert
       expect(loadLastEventRepository.groupId).toBe('any_group_id');
+      expect(loadLastEventRepository.callsCount).toBe(1);
    });
 });
