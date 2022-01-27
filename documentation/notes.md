@@ -99,7 +99,8 @@
 <details>
   <summary>Liskov Substituition (LSP)</summary>
    
-   - 
+   - Objetos podem ser substituídos por seus subtipos sem que isso afete a execução correta do programa
+   - Permite que você coloque implementações diferentes
 </details>
 
 <details>
@@ -129,6 +130,12 @@
 <details>
   <summary>Factory </summary>
    
-   - criar instâncias de objetos complexos, para não precisar repetir em vários lugares diferentes do código
+   - Criar instâncias de objetos complexos, para não precisar repetir em vários lugares diferentes do código
 </details>
 
+<details>
+  <summary>Strategy Pattern </summary>
+   
+   - Design Pattern: abrir possibilidades diferentes
+   - Ex: Usando o mesmo caso de uso, posso usar o Mongo, ou Postgres ou com os dois
+</details>
