@@ -63,6 +63,10 @@
    
    - 
 </details>
+<summary>Bad Naming </summary>
+   
+   - 
+</details>
 
 # Design Patterns/Principles/Conventions
 
@@ -148,4 +152,10 @@
    
    - Design Pattern: abrir possibilidades diferentes
    - Ex: Usando o mesmo caso de uso, posso usar o Mongo, ou Postgres ou com os dois
+</details>
+
+<details>
+  <summary>Clean Code</summary>
+   
+   -
 </details>
