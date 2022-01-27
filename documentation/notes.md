@@ -54,6 +54,12 @@
    - Quando você mexe em um lugar e afeta vários outros
 </details>
 
+<details>
+  <summary>Long Parameter List </summary>
+   
+   - 
+</details>
+
 # Design Patterns/Principles/Conventions
 
 <details>
@@ -128,7 +134,7 @@
 </details>
 
 <details>
-  <summary>Factory </summary>
+  <summary>Factory Pattern </summary>
    
    - Criar instâncias de objetos complexos, para não precisar repetir em vários lugares diferentes do código
 </details>

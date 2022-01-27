@@ -1,7 +1,12 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-plusplus */
 /* eslint-disable max-classes-per-file */
+import { set, reset } from 'mockdate';
+
 interface ILoadLastEventRepository {
-   loadLastEvent: (groupId: string) => Promise<undefined>;
+   loadLastEvent: (input: {
+      groupId: string;
+   }) => Promise<{ endDate: Date } | undefined>;
 }
 
 class LoadLastEventRepository {
@@ -11,9 +16,13 @@ class LoadLastEventRepository {
 class LoadLastEventRepositorySpy implements ILoadLastEventRepository {
    groupId?: string;
    callsCount = 0;
-   output: undefined;
+   output?: { endDate: Date };
 
-   async loadLastEvent(groupId: string): Promise<undefined> {
+   async loadLastEvent({
+      groupId,
+   }: {
+      groupId: string;
+   }): Promise<{ endDate: Date } | undefined> {
       this.groupId = groupId;
       this.callsCount++;
       return this.output;
@@ -25,9 +34,11 @@ class CheckLastEventStatus {
       private readonly loadLastEventRepository: ILoadLastEventRepository
    ) {}
 
-   async perform(groupId: string): Promise<string> {
-      await this.loadLastEventRepository.loadLastEvent(groupId);
-      return 'done';
+   async perform({ groupId }: { groupId: string }): Promise<string> {
+      const event = await this.loadLastEventRepository.loadLastEvent({
+         groupId,
+      });
+      return event === undefined ? 'done' : 'active';
    }
 }
 
@@ -46,15 +57,25 @@ const makeSut = (): SutTypes => {
 };
 
 describe('CheckLastEventStatus', () => {
+   const groupId = 'any_group_id';
+
+   beforeAll(() => {
+      set(new Date());
+   });
+
+   afterAll(() => {
+      reset;
+   });
+
    it('should get last event data', async () => {
       // Arranje
       const { sut, loadLastEventRepository } = makeSut();
 
       // Act
-      await sut.perform('any_group_id');
+      await sut.perform({ groupId: 'any_group_id' });
 
       // Assert
-      expect(loadLastEventRepository.groupId).toBe('any_group_id');
+      expect(loadLastEventRepository.groupId).toBe(groupId);
       expect(loadLastEventRepository.callsCount).toBe(1);
    });
 
@@ -64,9 +85,23 @@ describe('CheckLastEventStatus', () => {
       loadLastEventRepository.output = undefined;
 
       // Act
-      const status = await sut.perform('any_group_id');
+      const status = await sut.perform({ groupId });
 
       // Assert
       expect(status).toBe('done');
+   });
+
+   it('should return status active when now is before event end time', async () => {
+      // Arranje
+      const { sut, loadLastEventRepository } = makeSut();
+      loadLastEventRepository.output = {
+         endDate: new Date(new Date().getTime() + 1),
+      };
+
+      // Act
+      const status = await sut.perform({ groupId });
+
+      // Assert
+      expect(status).toBe('active');
    });
 });
