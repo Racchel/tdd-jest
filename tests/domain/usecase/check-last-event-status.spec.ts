@@ -29,18 +29,22 @@ class LoadLastEventRepositorySpy implements ILoadLastEventRepository {
    }
 }
 
+type EventStatus = { status: string };
+
 class CheckLastEventStatus {
    constructor(
       private readonly loadLastEventRepository: ILoadLastEventRepository
    ) {}
 
-   async perform({ groupId }: { groupId: string }): Promise<string> {
+   async perform({ groupId }: { groupId: string }): Promise<EventStatus> {
       const event = await this.loadLastEventRepository.loadLastEvent({
          groupId,
       });
-      if (event === undefined) return 'done';
+      if (event === undefined) return { status: 'done' };
       const now = new Date();
-      return event.endDate > now ? 'active' : 'inReview';
+      return event.endDate > now
+         ? { status: 'active' }
+         : { status: 'inReview' };
    }
 }
 
@@ -87,10 +91,10 @@ describe('CheckLastEventStatus', () => {
       loadLastEventRepository.output = undefined;
 
       // Act
-      const status = await sut.perform({ groupId });
+      const eventStatus = await sut.perform({ groupId });
 
       // Assert
-      expect(status).toBe('done');
+      expect(eventStatus.status).toBe('done');
    });
 
    it('should return status active when now is before event end time', async () => {
@@ -101,10 +105,10 @@ describe('CheckLastEventStatus', () => {
       };
 
       // Act
-      const status = await sut.perform({ groupId });
+      const eventStatus = await sut.perform({ groupId });
 
       // Assert
-      expect(status).toBe('active');
+      expect(eventStatus.status).toBe('active');
    });
 
    it('should return status inReview when now is after event end time', async () => {
@@ -115,9 +119,9 @@ describe('CheckLastEventStatus', () => {
       };
 
       // Act
-      const status = await sut.perform({ groupId });
+      const eventStatus = await sut.perform({ groupId });
 
       // Assert
-      expect(status).toBe('inReview');
+      expect(eventStatus.status).toBe('inReview');
    });
 });

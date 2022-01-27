@@ -59,6 +59,10 @@
    
    - 
 </details>
+<summary>Primitive Obsession </summary>
+   
+   - 
+</details>
 
 # Design Patterns/Principles/Conventions
 
