@@ -25,8 +25,9 @@ class CheckLastEventStatus {
       private readonly loadLastEventRepository: ILoadLastEventRepository
    ) {}
 
-   async perform(groupId: string): Promise<void> {
+   async perform(groupId: string): Promise<string> {
       await this.loadLastEventRepository.loadLastEvent(groupId);
+      return 'done';
    }
 }
 
@@ -54,6 +55,6 @@ describe('CheckLastEventStatus', () => {
       const status = await sut.perform('any_group_id');
 
       // Assert
-      // expect(status).toBe('done');
+      expect(status).toBe('done');
    });
 });

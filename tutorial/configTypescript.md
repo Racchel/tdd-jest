@@ -1,5 +1,3 @@
-# Configurando e iniciando projeto Node.js com Typescript
-
 # Configurando o Typescript
 
 [Criando projeto com typescript](https://app.rocketseat.com.br/node/chapter-ii-2/group/typescript/lesson/criando-projeto-com-typescript)
